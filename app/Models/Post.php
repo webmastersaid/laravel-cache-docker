@@ -9,4 +9,10 @@ class Post extends Model
 {
     use HasFactory;
     protected $guarded = false;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 }
