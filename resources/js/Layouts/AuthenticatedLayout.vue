@@ -21,7 +21,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('home')">
-                                <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
+                                    <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
 
@@ -32,6 +32,9 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                                 <NavLink :href="route('post.index')" :active="route().current('post.index')">
                                     Posts
+                                </NavLink>
+                                <NavLink  v-if="$page.props.auth.user" :href="route('post.create')" :active="route().current('post.create')">
+                                    Create post
                                 </NavLink>
                             </div>
                         </div>
@@ -95,6 +98,9 @@ const showingNavigationDropdown = ref(false);
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('post.index')" :active="route().current('post.index')">
                             Posts
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="$page.props.auth.user" :href="route('post.create')" :active="route().current('post.create')">
+                            Create post
                         </ResponsiveNavLink>
                     </div>
 

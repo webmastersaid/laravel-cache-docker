@@ -36,8 +36,8 @@ const submit = () => {
     <Head title="Create post" />
     <AuthenticatedLayout>
         <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit post</h2>
             <div class="flex gap-1 justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit post</h2>
                 <a :href="route('post.show', post.id)" class="text-blue-700">
                     Go back to post
                 </a>
@@ -51,13 +51,14 @@ const submit = () => {
                 <form @submit.prevent="submit">
                     <div>
                         <InputLabel for="title" value="Title" />
-                        <TextInput id="title" type="text" class="mt-1 block w-full" v-model="form.title" required
-                            autofocus />
+                        <TextInput id="title" type="text" class="mt-1 block w-full"
+                            v-model="form.title" required autofocus />
                         <InputError class="mt-2" :message="form.errors.title" />
                     </div>
                     <div class="mt-4">
                         <InputLabel for="content" value="Content" />
-                        <TextArea id="content" type="text" class="mt-1 block w-full" v-model="form.content" required />
+                        <TextArea id="content" type="text" class="mt-1 block w-full"
+                            v-model="form.content" required />
                         <InputError class="mt-2" :message="form.errors.content" />
                     </div>
                     <div class="flex items-center justify-end mt-4">

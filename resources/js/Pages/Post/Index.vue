@@ -14,7 +14,7 @@ const props = defineProps([
             <div class="flex gap-1 justify-between">
                 <h1 class="font-semibold text-xl text-gray-800 leading-tight">Posts</h1>
                 <a v-if="$page.props.auth.user" :href="route('post.create')"
-                    class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-blue-700">
+                    class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 ring-1 text-blue-700">
                     Create post
                 </a>
             </div>
@@ -35,7 +35,7 @@ const props = defineProps([
                                     Views: {{ post.views }}
                                 </div>
                                 <div>
-                                    <a v-if="$page.props.auth.user" :href="route('post.show', post.id)" class="text-blue-700">
+                                    <a :href="route('post.show', post.id)" class="text-blue-700">
                                         View
                                     </a>
                                 </div>

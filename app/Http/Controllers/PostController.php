@@ -2,29 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Post\StoreCacheRequest;
 use App\Http\Requests\Post\StoreRequest;
+use App\Http\Requests\Post\UpdateCacheRequest;
 use App\Http\Requests\Post\UpdateRequest;
-use App\Http\Resources\PostResource;
 use App\Models\Post;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 
 class PostController extends Controller
 {
     public function index()
     {
         $posts = Post::all();
-        return Inertia::render('Post/Index', ['posts' => $posts]);
+        return inertia('Post/Index', compact('posts'));
     }
     public function create()
     {
-        return inertia('Post/Create');
+        $key = 'post_create_cache_by_user_' . auth()->id();
+        $cache = Cache::get($key);
+        return inertia('Post/Create', compact('cache'));
     }
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
         $data['user_id'] = auth()->id();
         Post::create($data);
+        $key = 'post_create_cache_by_user_' . auth()->id();
+        if(Cache::has($key)) {
+            Cache::forget($key);
+        }
         return Redirect::route('post.index');
     }
     public function show($id)
@@ -33,12 +40,14 @@ class PostController extends Controller
         $author = $post->user;
         $views = $post->views + 1;
         $post->update(['views' => $views]);
-        return Inertia::render('Post/Show', ['post' => $post, 'author' => $author]);
+        return inertia('Post/Show', compact('post', 'author'));
     }
     public function edit($id)
     {
         $post = Post::find($id);
-        return inertia('Post/Edit', ['post' => $post]);
+        $key = 'post_' . $post->id . '_edit_cache_by_user_' . auth()->id();
+        $cache = Cache::get($key);
+        return inertia('Post/Edit', compact('post', 'cache'));
     }
     public function update(UpdateRequest $request, $id)
     {
@@ -54,5 +63,11 @@ class PostController extends Controller
         $post->user()->dissociate();
         $post->delete();
         return Redirect::route('post.index');
+    }
+    public function storeCache(StoreCacheRequest $request)
+    {
+        $data = $request->validated();
+        $key = 'post_create_cache_by_user_' . auth()->id();
+        Cache::put($key, $data);
     }
 }

@@ -18,7 +18,7 @@ const props = defineProps([
                     Go back to posts
                 </a>
                 <a v-if="$page.props.auth.user" :href="route('post.edit', post.id)"
-                    class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-blue-700">
+                    class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 ring-1 text-blue-700">
                     Edit
                 </a>
             </div>
